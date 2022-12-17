@@ -3,6 +3,8 @@ import {MultiMessage} from "../shared/MultiMessage";
 import {Collection, EmbedType, Message, TextBasedChannel, User} from "discord.js";
 import {logMessage} from "../utils/logMessage";
 
+import similarity from 'compute-cosine-similarity';
+
 // @ts-ignore
 import {encode} from 'gpt-3-encoder';
 import {CreateCompletionResponse, OpenAIApi} from 'openai';
@@ -119,14 +121,6 @@ ${this.username}:`;
 
             try {
                 const maxTokens = ModelInfo[this.model].MAX_TOKENS_PER_RESPONSE;
-
-                // const embedding = await openai.createEmbedding({
-                //     model: 'embedding-ada-002',
-                //     user: user.id,
-                //     input: newPromptText,
-                // });
-
-
 
                 // https://www.npmjs.com/package/compute-cosine-similarity
 
@@ -329,7 +323,7 @@ ${JSON.stringify(debugInfo, null, '  ')}
             ],
         }).toArray();
 
-        logMessage(`Found ${results.length} number of threads to check.`)
+        logMessage(`Found ${results.length} number of version0 threads to check.`)
 
         await Promise.all(results.map(async result => {
             const fromDb = result.value as ChatGPTConversationVersion0;
